@@ -1,15 +1,11 @@
-// TODO: answer here
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NavBar from "../components/Navbar";
-import { Button } from "@chakra-ui/react";
-import { Input } from "@chakra-ui/react";
+import { Button, Input } from "@chakra-ui/react";
+import Footer from "../components/Footer";
 
 const AddStudent = () => {
   const navigate = useNavigate();
-  const url = `http://localhost:3001/student`;
-
-  const [studentData, setStudentData] = useState({
+  const [student, setStudent] = useState({
     fullname: "",
     profilePicture: "",
     address: "",
@@ -22,15 +18,15 @@ const AddStudent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(url, {
+      const response = await fetch("http://localhost:3001/student", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(studentData),
+        body: JSON.stringify(student),
       });
       const data = await response.json();
-
+      console.log("Success: ", data);
       navigate("/student");
     } catch (error) {
       console.log("Error: ", error);
@@ -39,9 +35,10 @@ const AddStudent = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let faculty = "";
+    let faculty = ""; // Initialize faculty variable
 
     if (name === "programStudy") {
+      // Check the value of programStudy and set the faculty accordingly
       switch (value) {
         case "Ekonomi":
         case "Manajemen":
@@ -63,65 +60,45 @@ const AddStudent = () => {
           faculty = "Fakultas Teknologi Informasi dan Sains";
           break;
         default:
-          faculty = "";
+          faculty = ""; // Set faculty to empty if none of the cases match
           break;
       }
     }
 
-    setStudentData({ ...studentData, [name]: value, faculty });
+    setStudent({ ...student, [name]: value, faculty });
   };
 
   return (
     <>
-      <NavBar />
-
-      <form id="form-student" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="input-name">Fullname</label>
-          <Input placeholder="Fullname" id="input-name" name="fullname" type="text" value={studentData.fullname} onChange={handleChange} data-testid="name" />
-          <br />
-          <br />
+          <label htmlFor="fullname">Full Name:</label>
+          <Input type="text" id="fullname" name="fullname" value={student.fullname} onChange={handleChange} data-testid="name" required />
         </div>
-
         <div>
-          <label htmlFor="profil-pict">Profile Picture</label>
-          <Input placeholder="Profile Picture" id="profil-pict" name="profilePicture" type="text" value={studentData.profilePicture} onChange={handleChange} data-testid="profilePicture" />
-          <br />
-          <br />
+          <label htmlFor="profilePicture">Profile Picture:</label>
+          <Input type="text" id="profilePicture" name="profilePicture" value={student.profilePicture} onChange={handleChange} data-testid="profilePicture" required />
         </div>
-
         <div>
-          <label htmlFor="input-address">Address</label>
-          <Input placeholder="Address" id="input-address" name="address" type="text" value={studentData.address} onChange={handleChange} data-testid="address" />
-          <br />
-          <br />
+          <label htmlFor="address">Address:</label>
+          <Input type="text" id="address" name="address" value={student.address} onChange={handleChange} data-testid="address" required />
         </div>
-
         <div>
-          <label htmlFor="input-phoneNumber">Phone Number</label>
-          <Input placeholder="Phone Number" id="input-phoneNumber" name="phoneNumber" type="text" value={studentData.phoneNumber} onChange={handleChange} data-testid="phoneNumber" />
-          <br />
-          <br />
+          <label htmlFor="phoneNumber">Phone Number:</label>
+          <Input type="text" id="phoneNumber" name="phoneNumber" value={student.phoneNumber} onChange={handleChange} data-testid="phoneNumber" required />
         </div>
-
         <div>
-          <label htmlFor="input-date">Birth Date</label>
-          <Input placeholder="Birth Date" id="input-date" name="birthDate" type="text" value={studentData.birthDate} onChange={handleChange} data-testid="date" />
-          <br />
-          <br />
+          <label htmlFor="birthDate">Birth Date:</label>
+          <Input type="text" id="birthDate" name="birthDate" value={student.birthDate} onChange={handleChange} data-testid="date" required />
         </div>
-
         <div>
-          <label htmlFor="input-gender">Gender</label>
-          <Input placeholder="Gender" id="input-gender" name="gender" type="text" value={studentData.gender} onChange={handleChange} data-testid="gender" />
-          <br />
-          <br />
+          <label htmlFor="gender">Gender:</label>
+          <Input type="text" id="gender" name="gender" value={student.gender} onChange={handleChange} data-testid="gender" required />
         </div>
-
         <div>
-          <label htmlFor="input-prody">Program Study</label>
-          <select id="input-prody" name="programStudy" value={studentData.programStudy} onChange={handleChange} data-testid="prody">
-            <option value="">Select Program Study</option>
+          <label htmlFor="programStudy">Program Study:</label>
+          <select id="programStudy" name="programStudy" value={student.programStudy} onChange={handleChange} data-testid="prody" required>
+            <option value="">-- Select Program Study --</option>
             <option value="Ekonomi">Ekonomi</option>
             <option value="Manajemen">Manajemen</option>
             <option value="Akuntansi">Akuntansi</option>
@@ -134,16 +111,12 @@ const AddStudent = () => {
             <option value="Fisika">Fisika</option>
             <option value="Informatika">Informatika</option>
           </select>
-          <br />
-          <br />
         </div>
-
-        <div>
-          <Button colorScheme="blue" type="submit" data-testid="student-btn">
-            All Student
-          </Button>
-        </div>
+        <Button type="submit" data-testid="add-btn">
+          Add Student
+        </Button>
       </form>
+      <Footer />
     </>
   );
 };

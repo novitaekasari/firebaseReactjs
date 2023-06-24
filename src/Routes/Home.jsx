@@ -1,15 +1,30 @@
-import { Button, ButtonGroup } from "@chakra-ui/react";
+import React from "react";
+import { Link } from "react-router-dom";
+import { Button, Card, Heading, Box, Center } from "@chakra-ui/react";
+import Footer from "../components/Footer";
 
 const Home = () => {
   return (
     <>
-      <link to={`/student`}>
-        <Button colorScheme="blue" type="submit" data-testid="student-btn">
-          All Student
-        </Button>
-      </link>
+      <div
+        style={{
+          backgroundColor: "skyblue",
+        }}
+      >
+        <Center marginTop="100">
+          <Box height="100%" maxW={"320px"} w={"full"} rounded={"lg"} p={6} textAlign={"center"}>
+            <Card align="center" variant="outline" bg="skyblue" height="100%">
+              <Heading>Home</Heading>
+              <Button colorScheme="purple" as={Link} to="/student" data-testid="student-btn">
+                All Student
+              </Button>
+            </Card>
+          </Box>
+        </Center>
+      </div>
+      <Footer />
     </>
-  ); // TODO: replace this
+  );
 };
 
 export default Home;

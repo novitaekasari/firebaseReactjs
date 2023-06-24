@@ -1,14 +1,13 @@
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import { Button } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 const NotFound = () => {
-  const navigate = useNavigate();
-
   return (
     <>
-      <h1>404 | Not Found</h1>
-      <Button colorScheme="blue" data-testid="student-btn" onClick={() => navigate(-1)}>
-        Take Me Back
+      <h1>404 Page Not Found</h1>
+      <Button as={Link} to="/" colorScheme="blue" mt={4}>
+        Go to Home
       </Button>
     </>
   );
